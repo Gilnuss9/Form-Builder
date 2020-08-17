@@ -1,13 +1,22 @@
 import React, {useState, useEffect} from 'react'
 import ShowAnswers from './ShowAnswers'
 import axios from 'axios'
+import { useParams } from 'react-router'
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+  } from "react-router-dom";
 
 function SubmissionsPage() {
     const [formName, setformName] = useState([])
     const [theQuestions, setThequestions] = useState([])
     const [theAnswers, setTheAnswers] = useState([])
 
-    let urlQ = 'http://127.0.0.1:5000/api/v1/resources/forms/5f39af2fc715388d31e508b2'
+    let {id} = useParams()
+
+    let urlQ = `http://127.0.0.1:5000/api/v1/resources/forms/${id}`
 
 
     useEffect(() => {
@@ -32,7 +41,10 @@ function SubmissionsPage() {
                     </div>
 
                 ))}
+
             </ul>
+
+            <Link to={'/'}>Return To Main Page</Link>
         </div>
     )
 }

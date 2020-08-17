@@ -15,6 +15,7 @@ function FillableField({todo ,addAnswer}){
     }
 
     function handleAnswerChange(e){
+        console.log(e.target.value)
         setAnswer({ ...answer, id:todo.id, content: e.target.value });
     }
     console.log(todo)

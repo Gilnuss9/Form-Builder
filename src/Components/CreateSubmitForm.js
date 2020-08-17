@@ -65,9 +65,17 @@ function CreateSubmitForm() {
 
     const uploadForm = async () => {
         let res = await api.post('', { formName: fullForm[0], fields: fullForm[1] })
+        cleanUpStorate()
         console.log(res)
     }
 
+    function cleanUpStorate() {
+        localStorage.clear(LOCAL_STORAGE_KEY)
+        localStorage.clear(LOCAL_STORAGE_KEY2)
+        localStorage.clear(LOCAL_STORAGE_KEY3)
+        localStorage.clear(LOCAL_STORAGE_KEY4)
+    }
+    
     function createFullForm(name) {
         let i = formId
         setFormId(formId + 1)
@@ -91,9 +99,12 @@ function CreateSubmitForm() {
     return (
         <div className="App">
             <header className="App-header">
-                <p></p>
+                
                 <QuestionForm addquestion={addquestion} />
                 <QuestionList questions={questions} removeTodo={removeTodo} />
+                <p>
+                {formName}
+                </p>
                 <NameSubmit changeName={changeName} />
                 <button onClick={uploadForm}>
                     <Link to={'/'}>

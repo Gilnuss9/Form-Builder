@@ -1,33 +1,45 @@
 import React, { useState,useEffect } from 'react'
 import axios from 'axios'
+import { useParams } from 'react-router'
 
 
 
 function ShowAnswers({aQuestion }) {
     const [theAnswers, setTheAnswers] = useState([])
     let answersToShow = [] 
+    const {id} = useParams()
+    let urlA = `http://127.0.0.1:5000/api/v1/resources/submissions/${id}`
 
-    let urlA = 'http://127.0.0.1:5000/api/v1/resources/submissions/5f39b1934f288e17846ec513'
     useEffect(() => {
         axios.get(urlA)
             .then(response => {
-                setTheAnswers(response.data[0].data)
+                console.log(response)
+                setTheAnswers(response.data)
+                
                 
             })
             .catch(() =>{console.log('fails')})
     }, [urlA])
 
     function fillAnswersToShow() {
-        theAnswers.map(anAnswer =>{
-            if(anAnswer.id === aQuestion.id){
-                answersToShow.push(anAnswer.content)
+        theAnswers.map(anAnswerForm =>{
+            console.log(anAnswerForm)
+            anAnswerForm.data.map(answer =>{
+                if(answer.id === aQuestion.id){
+                    answersToShow.push(answer.content)
+                }
+            })
             }
-        })
-    }
+        )}
+    console.log(answersToShow)
     return (
         <div>
             {fillAnswersToShow()}
-            {answersToShow.map(answerToShow => (answerToShow))}
+            {answersToShow.map(answerToShow => (
+                <div>
+                {answerToShow}
+                </div>
+                ))}
         </div>
     )
 
