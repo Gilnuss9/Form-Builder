@@ -25,14 +25,6 @@ class Server:
             raise Exception(message="unable to initialize db connection")
 
 
-        @self.app.route('/api/v1/resources/collections', methods=['GET'])
-        def getCollectionList():
-            result=self.dao.getCollectionsList()
-            for c in result:
-                if isinstance(c['_id'], ObjectId):
-                    c['_id'] = str(c['_id'])
-            return jsonify(result)
-
         @self.app.route('/api/v1/resources/formlist',methods=['GET'])
         def getFormList():
             result = self.dao.getFormList()
@@ -58,7 +50,7 @@ class Server:
         @self.app.route('/api/v1/resources/submissions/<string:id>', methods=['GET', 'POST'])
         def submissionsById(id):
             if request.method == "GET":
-                res = self.dao.getSubmissions(ObjectId(id))
+                res = self.dao.getSubmissions(id)
                 for s in res:
                     s["_id"] = str(s["_id"])
                 return jsonify(res)
@@ -68,6 +60,7 @@ class Server:
                 except DaoException:
                     flask.abort(500)
                 return jsonify({"success": True, "formId": str(submissionId)})
+
 
 
     def start(self,host="127.0.0.1",port=5000):

@@ -2,7 +2,8 @@ import pymongo
 from enum import Enum
 
 
-mongosrv = "mongodb+srv://gil:123@cluster0.0w4ms.mongodb.net/SurveyForms?retryWrites=true&w=majority"
+mongosrv = "mongodb+srv://gil:123@cluster0.0w4ms.mongodb.net/?retryWrites=true&w=majority"
+
 class Dao:
 
     def __init__(self):
@@ -68,8 +69,8 @@ class Dao:
     def getSubmissionsCount(self, formId):
         count = 0
         try:
-            submissions = self["formSubmissions"]
-            count = submissions.count_documnets({"formId":formId})
+            submissions = self["submissions"]
+            count = submissions.count_documents({"formId":formId})
         except:
             pass
         return count
@@ -79,14 +80,14 @@ class Dao:
         formList = []
         try:
             forms = self.db["forms"]
-            for f in forms.find({},{"_id":1,"name":1}):
+            for f in forms.find({},{"_id":1,"formName":1}):
                 formList.append(f)
         except:
             pass
         for f in formList:
             try:
-                entry = {"formId": f["_id"], "name" : f["name"]}
-                entry["count"] = self.getSubmissionsCount(f["_id"])
+                entry = {"formId": f["_id"], "name" : f["formName"]}
+                entry["count"] = self.getSubmissionsCount(str(f["_id"]))
             except:
                 continue
             result.append(entry)
@@ -101,6 +102,7 @@ class Dao:
             register = True
         try:
             res = forms.insert_one(form)
+
         except:
             raise DaoException(DaoException.Type.DaoInsertionError,"Unable to add form.")
         if register:
@@ -133,22 +135,12 @@ class Dao:
         res = []
         try:
             submissions = self["submissions"]
-            subById = submissions.find({"_id":formId})
+            subById = submissions.find({"formId":formId})
             for s in subById:
                 res.append(s)
         except:
             pass
         return res
-
-    def getCollectionsList(self):
-        result = []
-        try:
-            collections = self.db["collections"]
-            for c in collections.find():
-                result.append(c)
-        except:
-            pass
-        return result
 
 
 
