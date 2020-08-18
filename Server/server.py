@@ -69,25 +69,6 @@ class Server:
                     flask.abort(500)
                 return jsonify({"success": True, "formId": str(submissionId)})
 
-        @self.app.route('/api/v1/resources/clearsubmissions/<int:id>', methods=['DELETE'])
-        def clearSubmissions(id):
-            try:
-                result = self.dao.clearSubmissions(id)
-            except DaoException:
-                flask.abort(500)
-            return jsonify({"success":True,"deleted_count" : result})
-
-
-
-        @self.app.route('/api/v1/resources/deleteform/<int:id>', methods=['DELETE'])
-        def deleteForm(id):
-            try:
-                result = self.dao.deleteForm(id)
-            except DaoException:
-                flask.abort(500)
-            return jsonify({"success": True, "deleted_count": result})
-
-
 
     def start(self,host="127.0.0.1",port=5000):
         self.app.run(host=host, port = port)
