@@ -1,20 +1,23 @@
 import React from 'react'
 
-function Question({question, removeTodo}){
+function Question({question, removeQuestion}){
     
     function handleButton(){
-        removeTodo(question.id)
+        removeQuestion(question.id)
     }
     return(
-        <div style ={{display: "flex"}}>
-        <li style={{
-            color: "black",
-            textDecoration: question.completed ?"line-through" :null
-        }}>
+        <div>
+            <div className='text-center font-weight-bold'>
+                <u>
+                List of Form Fields
+                </u>
+            </div>
+            <strong>Field Lable: {' '}</strong>
             {question.fieldLable}
+            <strong>Input Name: {' '}</strong>
             {question.inputName}
+            <strong>Input Type: {' '}</strong>
             {question.inputType}
-            </li>
         <button onClick={handleButton}>x</button>
         </div>
     )

@@ -1,31 +1,25 @@
 import React, {useState} from 'react'
-import {useForm} from 'react-hook-form'
 
-function FillableField({todo ,addAnswer}){
+function FillableField({question,updateAnswer,answers}){
     const [answer , setAnswer] = useState({
         id: '',
         content: ''
     })
-    const {register , handleSubmit} = useForm();
 
-    function onSubmit(data) 
-    {
-        
-        addAnswer(answer)
-    }
+
 
     function handleAnswerChange(e){
         console.log(e.target.value)
-        setAnswer({ ...answer, id:todo.id, content: e.target.value });
+        updateAnswer(question.id, e.target.value)
+        setAnswer({ ...answer, id:question.id, content: e.target.value });
     }
-    console.log(todo)
+    console.log(answers)
     return(
         <div>
-            {todo.fieldLable}
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <input type={todo.inputType} placeholder={todo.inputName} name={todo.fieldLable} ref={register} onChange={handleAnswerChange}></input>
-            <input type="submit"/>
-        </form>
+            <div><strong><u>Question:</u></strong> {' '}
+            {question.fieldLable}
+            </div>
+            <input type={question.inputType} placeholder={question.inputName} name={question.fieldLable} onChange={handleAnswerChange}></input>
         </div>
     )
 

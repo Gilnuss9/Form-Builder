@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import QuestionForm from './QuestionForm'
-import Question from './Question'
 import QuestionList from './QuestionList'
 import NameSubmit from './NameSubmit'
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-  } from "react-router-dom";
+import {Link} from "react-router-dom";
+import Header from './Header';
 
-const LOCAL_STORAGE_KEY = 'react-todo-list-questions';
+const LOCAL_STORAGE_KEY = 'react-question-list-questions';
 const LOCAL_STORAGE_KEY2 = 'react-formName';
 const LOCAL_STORAGE_KEY3 = 'react-fullForm';
 const LOCAL_STORAGE_KEY4 = 'react-fullFormId'
@@ -64,7 +59,8 @@ function CreateSubmitForm() {
     }, [questions]);
 
     const uploadForm = async () => {
-        let res = await api.post('', { formName: fullForm[0], fields: fullForm[1] })
+        createFullForm(fullForm[0])
+        let res = await api.post('', { formName: fullForm[0], fields: questions })
         cleanUpStorate()
         console.log(res)
     }
@@ -89,29 +85,49 @@ function CreateSubmitForm() {
     }
 
     function addquestion(question) {
+        console.log(question)
         setquestions([question, ...questions]);
     }
 
-    function removeTodo(id) {
-        setquestions(questions.filter(todo => todo.id !== id));
+    function removeQuestion(id) {
+        setquestions(questions.filter(question => question.id !== id));
+    }
+
+    function returnToMain(){
+        cleanUpStorate()
     }
 
     return (
-        <div className="App">
-            <header className="App-header">
-                
+        <div className='col px-md-1'>
+            <div className='text-center'>
+            <Header theTitle={'Create Survey Form'} />   
+            </div>
+        <div className='col px-md-1'>
+            Choose The Form Name:   
+                <NameSubmit changeName={changeName} />
+                </div >
+                <div className='col px-md-1'>
                 <QuestionForm addquestion={addquestion} />
-                <QuestionList questions={questions} removeTodo={removeTodo} />
+                </div>
+                <div>
+                <QuestionList questions={questions} removeQuestion={removeQuestion} />
+                </div>
                 <p>
                 {formName}
                 </p>
-                <NameSubmit changeName={changeName} />
+                
                 <button onClick={uploadForm}>
                     <Link to={'/'}>
                     Upload form
                     </Link>
                     </button>
-            </header>
+                    <div>
+                    <button onClick={returnToMain}>
+                    <Link to={'/'}>
+                    Return To Main
+                    </Link>
+                    </button>
+                    </div>
 
         </div>
     );

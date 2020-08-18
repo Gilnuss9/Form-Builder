@@ -2,21 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import FillableField from './FillableField'
 import { useParams } from 'react-router';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
+import {Link} from "react-router-dom";
+import Header from './Header';
 
 
 function FillableForm() {
-    const [surveyData, setSurveyData] = useState([])
     const [surveyName, setSurveyName] = useState([])
     const [surveyId, setSurveyId] = useState([])
     const [submissionSheet, setSubmissionSheet] = useState([])
-    const [answersList, setAnswersList] = useState([])
-    let subSheet = []
+    let answers =[]
 
     const { id } = useParams()
     console.log(id)
@@ -34,42 +28,56 @@ function FillableForm() {
                 setSubmissionSheet(response.data.fields)
                 setSurveyName(response.data.formName)
                 setSurveyId(response.data._id)
-                setSurveyData(response)
                 console.log(response)
 
             })
             .catch(() => { console.log('failes') })
     }, [urlQ])
 
-    function addAnswer(answer) {
-        console.log(answer)
-        setAnswersList([answer, ...answersList]);
+    function setAnswers(){
+        submissionSheet.map(question =>{
+            answers.push({id: question.id, content:''})
+        })
+    }
+
+    function updateAnswer(id, content){
+        answers.map(anAnswer =>{
+            if(anAnswer.id === id){
+                anAnswer.content = content
+            }
+        })
     }
 
 
     const uploadAnswerForm = async () => {
-        let res = await api.post('', { formId: surveyId, name: surveyName, data: answersList })
+        let res = await api.post('', { formId: surveyId, name: surveyName, data: answers })
         console.log(res)
-        console.log(answersList)
     }
-    if (submissionSheet) {
-        submissionSheet.map(submission => (
-            subSheet.push(submission)
-        ))
-    }
-
+ 
+    console.log(answers)
     return (
         <ul>
-
-            <div>{surveyName}</div>
-            {submissionSheet.map(quesion => (
-                <FillableField key={quesion.id} todo={quesion} addAnswer={addAnswer} />
+            {setAnswers()}
+            <div className='text-center'>
+                <Header theTitle={surveyName} />
+                </div>
+            {submissionSheet.map(question => (
+                <FillableField key={question.id} question={question} updateAnswer={updateAnswer} answers={answers} />
             ))}
+            <div className='pt-5'>
             <button onClick={uploadAnswerForm}>
                 <Link to={'/'}>
                     Submit Answers
                     </Link>
             </button>
+            </div>
+            <div className='text-center fixed-bottom'>
+            <button>
+                <Link to={'/'}>
+                    Home Page
+                    </Link>
+            </button>
+            </div>
         </ul>
     );
 }

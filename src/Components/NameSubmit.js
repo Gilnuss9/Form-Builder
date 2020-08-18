@@ -17,7 +17,6 @@ function NameSubmit({changeName}){
     return(
         <div>
             <form onSubmit = {handleSubmit}>
-            Choose Form Name
             <input
                 value = {name}
                 onChange={handleInput} />

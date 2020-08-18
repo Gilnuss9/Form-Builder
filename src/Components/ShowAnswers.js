@@ -26,18 +26,25 @@ function ShowAnswers({aQuestion }) {
             console.log(anAnswerForm)
             anAnswerForm.data.map(answer =>{
                 if(answer.id === aQuestion.id){
-                    answersToShow.push(answer.content)
+                    answersToShow.push(answer)
                 }
             })
             }
         )}
     console.log(answersToShow)
+    console.log(aQuestion.inputType)
     return (
         <div>
+            <div></div>
+
             {fillAnswersToShow()}
             {answersToShow.map(answerToShow => (
                 <div>
-                {answerToShow}
+                    <tr>
+                        <td>
+                {answerToShow.content}
+                </td>
+                </tr>
                 </div>
                 ))}
         </div>

@@ -1,31 +1,66 @@
-import React, {useState, useEffect} from 'react';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-  } from "react-router-dom";
+import React from 'react';
+import { Link } from "react-router-dom";
+import '../App.css';
+import { Table } from 'react-bootstrap'
+
+
 
 
 function ShowForms(formList) {
+
+
     let listOfForms = []
-    if(formList.formList){
-        formList.formList.map(aForm =>(
+    if (formList.formList) {
+        formList.formList.map(aForm => (
             listOfForms.push(aForm)
         ))
     }
-    return (
-      <div>
-        {listOfForms.map(aForm =>(
-            <div>
-            {aForm.name} {aForm.count} <Link to={`/forms/${aForm.formId}`}>Link To Fill Form</Link>  <Link to={`/submissions/${aForm.formId}`}>Link To See Submissions</Link>
-            </div>
-            ))}
-            
-      </div>
-    );
-  }
 
-  //`/api/v1/resources/forms/${aForm.formId}`
-  
-  export default ShowForms;
+
+
+    console.log(listOfForms)
+    return (
+        <div>
+            <div>
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th>Form Id</th>
+                            <th>Form Name</th>
+                            <th># Submissions</th>
+                            <th>Submit Page</th>
+                            <th>Submission Page</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {listOfForms.map(aForm => (
+                            <tr>
+                                <td>
+                                    {aForm.formId}
+                                </td>
+                                <td>
+                                    {aForm.name}
+                                </td>
+                                <td>
+                                    {aForm.count}
+                                </td>
+                                <td>
+                                    <Link to={`/forms/${aForm.formId}`}>Fill Form</Link>
+                                </td>
+                                <td>
+                                    <Link to={`/submissions/${aForm.formId}`}>Check Answers</Link>
+                                </td>
+                            </tr>
+                        ))}
+
+                    </tbody>
+                </Table>
+            </div>
+        </div>
+    );
+}
+
+
+
+export default ShowForms;

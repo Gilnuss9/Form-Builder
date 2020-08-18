@@ -1,16 +1,12 @@
-This Work was done so it could run Locally.
+In order to run the client please do the following:
 
-before you start make sure you have installed node.js, if you do please do the following:
+In the folder run cmd and run the following commands:
+npm install -g yarn .
+after that please verify you have version 1.22 with the command:
+yarn --version 
 
-open the cmd and run:
-yarn add axios
-yarn add react-hook-forms
-yarn add react-router-dom
-yarn add react-router
+after you have installed yarn run the following commands:
+yarn install
 
-When you want to start write:
-yarn start
-
-to start the server please open the main.py with pyCharm and run it.
-
-you can now use the software locally.
+when you wish you run the client run:
+yarn start .

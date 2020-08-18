@@ -7,12 +7,12 @@ function QuestionForm({ addquestion }) {
         id: '',
         fieldLable: '',
         inputName: '',
-        inputType: '',
-        completed: false
+        inputType: 'text',
     });
 
     function handleTaskFieldChange(e) {
         setquestion({ ...question, fieldLable: e.target.value });
+        console.log(question)
     }
 
     function handleTaskInputNameChange(e) {
@@ -21,82 +21,49 @@ function QuestionForm({ addquestion }) {
 
     function handleTaskInputTypeChange(e) {
         setquestion({ ...question, inputType: e.target.value });
+        console.log(e.target.value)
     }
 
     function handleSubmit(e) {
+        console.log(question)
         e.preventDefault();
         if (question.fieldLable.trim()) {
             addquestion({ ...question, id: uuid() });
+            console.log(question)
             /// reset task input
-            setquestion({ ...question, fieldLable: '', inputName:'',inputType: '' });
+            setquestion({ ...question, fieldLable: '', inputName: '', inputType: '' });
         }
     }
 
-    
+
 
     return (
         <form onSubmit={handleSubmit}>
-            <div><h4>field lable</h4>
-            <input
-                value={question.fieldLable}
-                onChange={handleTaskFieldChange} />
+            <div ><strong><u>field lable:</u>{' '}</strong>
+                <input
+                    value={question.fieldLable}
+                    onChange={handleTaskFieldChange} />
             </div>
             <div>
-                <h4>input name</h4>
+                <strong><u>input name:</u>{' '}</strong>
                 <input
                     value={question.inputName}
                     onChange={handleTaskInputNameChange} />
             </div>
+            
             <div>
-                <input
-                 type="checkbox"
-                 value={'text'}
-                 onChange={handleTaskInputTypeChange} 
-                 />
-                <h6>
-                    text
-                </h6>
-                <input
-                 type="checkbox"
-                 value={'color'}
-                 onChange={handleTaskInputTypeChange} 
-                 />
-                <h6>
-                color
-                </h6>
-                <input
-                 type="checkbox"
-                 value={'date'}
-                 onChange={handleTaskInputTypeChange} 
-                 />
-                <h6>
-                date
-                </h6>
-                <input
-                 type="checkbox"
-                 value={'email'}
-                 onChange={handleTaskInputTypeChange} 
-                 />
-                <h6>
-                email
-                </h6>
-                <input
-                 type="checkbox"
-                 value={'tel'}
-                 onChange={handleTaskInputTypeChange} 
-                 />
-                <h6>
-                tel
-                </h6>
-                <input
-                 type="checkbox"
-                 value={'number '}
-                 onChange={handleTaskInputTypeChange} 
-                 />
-                <h6>
-                number 
-                </h6>
+            <strong><u>Choose Type</u>{' '}</strong>
+                <select onChange={handleTaskInputTypeChange}>
+                    Choose Type
+                    <option selected value = {'text'} >text</option>
+                    <option value = {'color'} >color</option>
+                    <option value = {'date'} >date</option>
+                    <option value = {'email'} >email</option>
+                    <option value = {'tel'} >tel</option>
+                    <option value = {'number'} >number</option>
+                </select>
             </div>
+
             <button type="submit"> add field </button>
         </form>
     );
